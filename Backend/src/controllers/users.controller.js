@@ -125,3 +125,29 @@ exports.updateUser = async (req, res) => {
         baseResponse(res, false, 500, 'Error updating user', null);
     }
 };
+
+exports.findUserByEmail = async (req, res) => {
+    const { email } = req.params;
+
+    if (!email) {
+        return baseResponse(res, false, 400, 'Email is required', null);
+    }
+
+    // Validate email format
+    if (!validateEmail(email)) {
+        return baseResponse(res, false, 400, 'Invalid email format', null);
+    }
+
+    try {
+        const user = await usersRepository.findUserByEmail(email);
+        if (!user) {
+            return baseResponse(res, false, 404, 'User not found', null);
+        }
+        // Don't send password in response
+        delete user.password;
+        baseResponse(res, true, 200, 'User fetched successfully', user);
+    } catch (error) {
+        console.error('Error fetching user by email:', error);
+        baseResponse(res, false, 500, 'Error fetching user by email', null);
+    }
+};
