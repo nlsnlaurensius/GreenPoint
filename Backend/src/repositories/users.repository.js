@@ -30,6 +30,16 @@ exports.findUserByEmailpassword = async (email, password) => {
     }
 }
 
+exports.findUserByEmail = async (email) => {
+    try {
+        const result = await db.query('SELECT * FROM users WHERE email = $1', [email]);
+        return result.rows[0];
+    } catch (error) {
+        console.error('Error fetching user by email:', error);
+        throw error;
+    }
+}
+
 exports.createUser = async (user) => {
     try {
         const { name, email, password } = user;
@@ -56,4 +66,4 @@ exports.updateUser = async (id, user) => {
         console.error('Error updating user:', error);
         throw error;
     }
-}
+};

@@ -1,5 +1,14 @@
 const usersRepository = require('../repositories/users.repository');
 const baseResponse = require('../utils/baseResponse.util');
+const bcrypt = require('bcrypt');
+const SALT_ROUNDS = 10;
+
+// Email validation regex
+const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+
+const validateEmail = (email) => {
+    return EMAIL_REGEX.test(email);
+};
 
 exports.getAllUsers = async (req, res) => {
     try {
@@ -11,7 +20,6 @@ exports.getAllUsers = async (req, res) => {
     }
 };
 
-
 exports.createUser = async (req, res) => {
     const { name, email, password } = req.body;
 
@@ -19,8 +27,24 @@ exports.createUser = async (req, res) => {
         return baseResponse(res, false, 400, 'Name, email and password are required', null);
     }
 
+    // Validate email format
+    if (!validateEmail(email)) {
+        return baseResponse(res, false, 400, 'Invalid email format', null);
+    }
+
     try {
-        const newUser = await usersRepository.createUser({ name, email, password });
+        // Check if email already exists
+        const existingUser = await usersRepository.findUserByEmail(email);
+        if (existingUser) {
+            return baseResponse(res, false, 400, 'Email already registered', null);
+        }
+
+        // Hash password before saving
+        const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+        const newUser = await usersRepository.createUser({ name, email, password: hashedPassword });
+        
+        // Don't send password in response
+        delete newUser.password;
         baseResponse(res, true, 201, 'User created successfully', newUser);
     } catch (error) {
         console.error('Error creating user:', error);
@@ -47,7 +71,6 @@ exports.getUserById = async (req, res) => {
     }
 };
 
-
 exports.findUserByEmailpassword = async (req, res) => {
     const { email, password } = req.body;
 
@@ -55,18 +78,33 @@ exports.findUserByEmailpassword = async (req, res) => {
         return baseResponse(res, false, 400, 'Email and password are required', null);
     }
 
+    // Validate email format
+    if (!validateEmail(email)) {
+        return baseResponse(res, false, 400, 'Invalid email format', null);
+    }
+
     try {
-        const user = await usersRepository.findUserByEmailpassword(email, password);
+        const user = await usersRepository.findUserByEmail(email);
+        
         if (!user) {
-            return baseResponse(res, false, 404, 'User not found', null);
+            return baseResponse(res, false, 401, 'Invalid email or password', null);
         }
-        baseResponse(res, true, 200, 'User fetched successfully', user);
+
+        // Compare password with hashed password
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        
+        if (!isPasswordValid) {
+            return baseResponse(res, false, 401, 'Invalid email or password', null);
+        }
+
+        // Don't send password in response
+        delete user.password;
+        baseResponse(res, true, 200, 'Login successful', user);
     } catch (error) {
-        console.error('Error fetching user:', error);
-        baseResponse(res, false, 500, 'Error fetching user', null);
+        console.error('Error during login:', error);
+        baseResponse(res, false, 500, 'Error during login', null);
     }
 };
-
 
 exports.updateUser = async (req, res) => {
     const { id } = req.params;
