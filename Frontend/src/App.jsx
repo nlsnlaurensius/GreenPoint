@@ -17,7 +17,7 @@ export default function App() {
         <section id="mission">
           <Mission />
         </section>
-        <section id="tutorial">
+        <section id="tutorial" className="">
           <Tutorial />
         </section>
         <section id="map">
