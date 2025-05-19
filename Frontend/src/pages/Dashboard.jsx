@@ -1,5 +1,5 @@
 import Header from "../components/Header";
-
+import Handphone from "../assets/hendphone.png"; 
 import React from "react";
 
 export default function Dashboard() {
@@ -28,10 +28,9 @@ export default function Dashboard() {
           {/* Phone Illustration */}
           <div className="flex justify-center items-center">
             <img
-              src="https://storage.googleapis.com/a1aa/image/2e2e2e2e-2e2e-2e2e-2e2e-2e2e2e2e2e2e.png"
+              src={Handphone}
               alt="Dashboard phone preview"
-              className="w-[350px] md:w-[400px] drop-shadow-2xl rotate-[20deg]"
-              style={{ boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.15)" }}
+              className="w-[200px] md:w-[300px] rotate-[5deg]"
             />
           </div>
         </div>

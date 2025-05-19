@@ -49,9 +49,11 @@ export default function WhyChoose() {
       {/* CTA Button centered */}
       { !localStorage.getItem('isLoggedIn') && (
         <div className="text-center">
-          <button className="bg-[#004828] text-xl text-white px-8 py-2 rounded-full font-semibold hover:bg-green-800 transition">
-            Get Started
-          </button>
+          <a href="/login">
+            <button className="bg-[#004828] text-xl text-white px-8 py-2 rounded-full font-semibold hover:bg-green-800 transition">
+              Get Started
+            </button>
+          </a>
         </div>
       )}
     </section>

@@ -5,7 +5,7 @@ const userPoints = 999;
 const rewards = Array(6).fill({
   name: "Trash Can",
   points: 10,
-  img: "https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full//101/MTA-2868577/kensi_kensi-tempat-sampah-stainless-bulat-ukuran-24-liter_full01.jpg"
+  img: "/src/assets/reward.png"
 });
 
 export default function Redeem() {
