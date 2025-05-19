@@ -10,21 +10,19 @@ export default function WhyChoose() {
   ];
 
   return (
-    <section className="container mx-auto px-12">
+    <section className="container mx-auto px-6 md:px-12">
       {/* Header */}
       <div className="text-center mb-10">
-        <h1 className="text-[#004828] text-center text-5xl font-bold leading">
-        Supporting SDG 12 for a Sustainable Future
+        <h1 className="text-[#004828] text-3xl md:text-5xl font-bold">
+          Supporting SDG 12 for a Sustainable Future
         </h1>
-
         <p className="text-black text-base md:text-2xl mt-4">
           “We're raising environmental awareness by incentivizing waste recycling”
         </p>
       </div>
 
-      {/* Main content with text and image */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-10">
-        {/* Left: Text */}
+      {/* Content */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-10">
         <div>
           <h2 className="text-lg md:text-3xl font-semibold text-[#004828] mb-4">
             Why Choose <span className="text-[#004828] font-bold">GreenPoint</span>?
@@ -36,22 +34,34 @@ export default function WhyChoose() {
           </ul>
         </div>
 
-        {/* Right: Video thumbnail */}
-        <div className="flex justify-center">
+        <div className="relative flex justify-center">
           <img
-            src="https://storage.googleapis.com/a1aa/image/123db1ed-912d-45e1-9f41-2658add0b131.jpg"
-            alt="Video tutorial on responsible consumption"
-            className="w-full max-w-sm rounded-lg shadow-md"
+            src="/src/assets/Laptop.png" 
+            alt="Laptop mockup"
+            className="w-full max-w-lg"
           />
+
+          {/* Area layar video*/}
+          <div className="absolute top-[7%] left-[18.6%] w-[63.9%] h-[65%] rounded-md overflow-hidden shadow-lg">
+            <iframe
+              src="https://www.youtube.com/embed/dn-hLQk49eA?si=vdRRmb97MxuoDd-y" // ganti path video kamu
+              title="YouTube video"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="w-full h-full"
+            />
+          </div>
         </div>
       </div>
 
-      {/* CTA Button centered */}
-      { !localStorage.getItem('isLoggedIn') && (
+      {/* CTA Button */}
+      {!localStorage.getItem('isLoggedIn') && (
         <div className="text-center">
-          <button className="bg-[#004828] text-xl text-white px-8 py-2 rounded-full font-semibold hover:bg-green-800 transition">
-            Get Started
-          </button>
+          <a href="/login">
+            <button className="bg-[#004828] text-xl text-white px-8 py-2 rounded-full font-semibold hover:bg-green-800 transition">
+              Get Started
+            </button>
+          </a>
         </div>
       )}
     </section>

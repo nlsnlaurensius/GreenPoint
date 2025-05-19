@@ -1,5 +1,6 @@
 import React from "react";
 import Logo from "../assets/Logo.png";
+import RRR from "../assets/RRR.png";
 
 export default function Register() {
   return (
@@ -59,7 +60,7 @@ export default function Register() {
         {/* Right: Illustration */}
         <div className="hidden md:block w-full max-w-lg">
           <img
-            src="https://storage.googleapis.com/a1aa/image/123db1ed-912d-45e1-9f41-2658add0b131.jpg"
+            src={RRR}
             alt="Reduce Reuse Recycle"
             className="rounded-full w-full h-auto object-cover shadow-lg"
           />
