@@ -39,7 +39,18 @@ export default function Header() {
       <div className="container mx-auto flex items-center justify-between py-4 px-6">
         {/* Logo */}
         <div className="flex items-center flex-shrink-0">
-          <a href="#" onClick={e => { e.preventDefault(); navigate('/'); }}>
+          <a
+            href="/"
+            onClick={e => {
+              e.preventDefault();
+              if (location.pathname !== "/") {
+                navigate("/");
+              } else {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }
+              setMenuOpen(false);
+            }}
+          >
             <img
               src={Logo}
               alt="GreenPoint logo"
