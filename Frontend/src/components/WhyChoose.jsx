@@ -21,9 +21,8 @@ export default function WhyChoose() {
         </p>
       </div>
 
-      {/* Main content with text and video mockup */}
+      {/* Content */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-10">
-        {/* Left: Text */}
         <div>
           <h2 className="text-lg md:text-3xl font-semibold text-[#004828] mb-4">
             Why Choose <span className="text-[#004828] font-bold">GreenPoint</span>?
@@ -35,16 +34,14 @@ export default function WhyChoose() {
           </ul>
         </div>
 
-        {/* Right: Laptop mockup with video overlay */}
         <div className="relative flex justify-center">
-          {/* Gambar mockup laptop (pastikan ukurannya cukup besar dan transparan) */}
           <img
-            src="/src/assets/Laptop.png" // ganti path sesuai gambar mockup kamu
+            src="/src/assets/Laptop.png" 
             alt="Laptop mockup"
             className="w-full max-w-lg"
           />
 
-          {/* Area layar video - sesuaikan posisi dan ukuran berdasarkan gambar */}
+          {/* Area layar video*/}
           <div className="absolute top-[7%] left-[18.6%] w-[63.9%] h-[65%] rounded-md overflow-hidden shadow-lg">
             <iframe
               src="https://www.youtube.com/embed/dn-hLQk49eA?si=vdRRmb97MxuoDd-y" // ganti path video kamu
