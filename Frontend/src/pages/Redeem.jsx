@@ -152,7 +152,7 @@ export default function Redeem() {
 
 
         <div className="text-2xl md:text-3xl font-medium text-black mb-8 w-full max-w-5xl">Your Points : {userPoints}</div>
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full max-w-5xl">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full max-w-5xl mb-8">
           {rewards.map((item) => (
             <div
               key={item.id}
