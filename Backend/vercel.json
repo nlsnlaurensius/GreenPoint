@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "index.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "index.js"
+    }
+  ],
+  "env": {
+    "PORT": "3000",
+    "PG_CONNECTION": "postgresql://gpdatabase_owner:npg_tdZlakQ8wx3P@ep-damp-sun-a1gj6uvo-pooler.ap-southeast-1.aws.neon.tech/gpdatabase?sslmode=require",
+    "JWT_SECRET": "4jeLv91DG8oZPWopDl3AJ4s4kehv8sZi1FXv3Iw6CO05d4GpptD0wjKtosVBwiC4",
+    "EMAIL_USER": "nelsonlaurensius1234@gmail.com",
+    "EMAIL_PASS": "ujoxeurpwlkidxel",
+    "FRONTEND_URL": "http://localhost:5173"
+  }
+}

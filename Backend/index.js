@@ -17,7 +17,10 @@ const adminRoutes = require('./src/routes/admin.route');
 const depositCodeRoutes = require('./src/routes/depositCode.route');
 
 app.use(cors({
-    origin: 'http://localhost:5173' 
+origin: [
+    'http://localhost:5173',
+    'http://greenpoint-fe.vercel.app'
+]
 }));
 
 app.use(express.json());
