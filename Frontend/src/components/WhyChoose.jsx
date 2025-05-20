@@ -1,4 +1,5 @@
 import React from 'react';
+import Laptop from '../assets/Laptop.png';
 
 export default function WhyChoose() {
   const points = [
@@ -34,7 +35,7 @@ export default function WhyChoose() {
 
         <div className="relative flex justify-center">
           <img
-            src="/src/assets/Laptop.png" 
+            src={Laptop}
             alt="Laptop mockup"
             className="w-full max-w-lg"
           />
