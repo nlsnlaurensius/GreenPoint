@@ -1,7 +1,7 @@
 import React from 'react';
 import SignUpIcon from '../assets/SignUp.svg';
 import FindGreenIcon from '../assets/FindGreen.svg';
-import DepositWasteIcon from '../assets/Depositwaste.svg';
+import DepositWasteIcon from '../assets/DepositWaste.svg';
 import GetRewardsIcon from '../assets/GetRewards.svg';
 
 export default function Tutorial() {
