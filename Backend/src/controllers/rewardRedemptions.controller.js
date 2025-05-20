@@ -27,7 +27,8 @@ exports.getRewardRedemptionsByUserId = async (req, res) => {
 
 exports.redeemReward = async (req, res) => {
     const userId = req.user.id;
-    const { reward_id } = req.body;
+    const { reward_id, quantity } = req.body;
+    const qty = Math.max(1, parseInt(quantity) || 1);
 
     if (!reward_id) {
         return baseResponse(res, false, 400, 'Reward ID is required', null);
@@ -39,7 +40,7 @@ exports.redeemReward = async (req, res) => {
             return baseResponse(res, false, 404, 'Reward not found', null);
         }
 
-        if (reward.stock <= 0) {
+        if (reward.stock < qty) {
             return baseResponse(res, false, 400, 'Reward is out of stock', null);
         }
 
@@ -48,7 +49,8 @@ exports.redeemReward = async (req, res) => {
             return baseResponse(res, false, 404, 'User not found', null);
         }
 
-        if (user.total_points < reward.point_cost) {
+        const totalCost = reward.point_cost * qty;
+        if (user.total_points < totalCost) {
             return baseResponse(res, false, 400, 'Insufficient points', null);
         }
 
@@ -59,7 +61,7 @@ exports.redeemReward = async (req, res) => {
 
             const updatedUser = await client.query(
                 'UPDATE users SET total_points = total_points - $1 WHERE id = $2 RETURNING id, username, email, total_points',
-                [reward.point_cost, userId]
+                [totalCost, userId]
             );
 
             if (updatedUser.rows.length === 0) {
@@ -67,8 +69,8 @@ exports.redeemReward = async (req, res) => {
             }
 
             const updatedReward = await client.query(
-                'UPDATE rewards SET stock = stock - 1 WHERE id = $1 AND stock >= 1 RETURNING *',
-                [reward_id]
+                'UPDATE rewards SET stock = stock - $1 WHERE id = $2 AND stock >= $1 RETURNING *',
+                [qty, reward_id]
             );
 
              if (updatedReward.rows.length === 0) {
@@ -77,7 +79,7 @@ exports.redeemReward = async (req, res) => {
 
             const newRedemption = await client.query(
                 'INSERT INTO reward_redemptions (user_id, reward_id, points_used) VALUES ($1, $2, $3) RETURNING *',
-                [userId, reward_id, reward.point_cost]
+                [userId, reward_id, totalCost]
             );
 
             await client.query('COMMIT');
