@@ -64,8 +64,11 @@ export default function Redeem() {
   }, [user?.id, setUser]);
 
   const openQuantityModal = (reward) => {
+    // Calculate max quantity user can redeem based on points and stock
+    const maxByPoints = Math.floor(userPoints / reward.point_cost);
+    const maxQty = Math.max(1, Math.min(maxByPoints, reward.stock));
     setQuantity(1);
-    setQuantityModal({ open: true, reward });
+    setQuantityModal({ open: true, reward, maxQty });
   };
   const closeQuantityModal = () => {
     setQuantityModal({ open: false, reward: null });
@@ -190,7 +193,7 @@ export default function Redeem() {
                   id="quantity"
                   type="number"
                   min={1}
-                  max={Math.min(Math.floor(userPoints / quantityModal.reward.point_cost), quantityModal.reward.stock)}
+                  max={quantityModal.maxQty}
                   value={quantity}
                   onChange={e => setQuantity(Number(e.target.value))}
                   className="w-24 px-3 py-2 border rounded-md text-center text-lg focus:outline-none focus:ring-2 focus:ring-[#004828] mb-2"
@@ -198,18 +201,18 @@ export default function Redeem() {
                 <input
                   type="range"
                   min={1}
-                  max={Math.min(Math.floor(userPoints / quantityModal.reward.point_cost), quantityModal.reward.stock)}
+                  max={quantityModal.maxQty}
                   value={quantity}
                   onChange={e => setQuantity(Number(e.target.value))}
                   className="w-full"
                 />
-                <div className="text-sm text-gray-500 mt-1">Max: {Math.min(Math.floor(userPoints / quantityModal.reward.point_cost), quantityModal.reward.stock)}</div>
+                <div className="text-sm text-gray-500 mt-1">Max: {quantityModal.maxQty}</div>
               </div>
               <div className="flex gap-4 w-full mt-2">
                 <button
                   onClick={() => handleRedeem(quantityModal.reward.id, quantityModal.reward.point_cost, quantity)}
                   className="flex-1 bg-[#004828] text-white font-semibold rounded-full px-6 py-3 shadow-md hover:bg-green-800 transition-transform duration-300 hover:scale-105 disabled:opacity-60 disabled:cursor-not-allowed"
-                  disabled={redeeming || quantity < 1 || quantity > Math.min(Math.floor(userPoints / quantityModal.reward.point_cost), quantityModal.reward.stock)}
+                  disabled={redeeming || quantity < 1 || quantity > quantityModal.maxQty}
                 >
                   {redeeming ? 'Processing...' : `Redeem (${quantity})`}
                 </button>
