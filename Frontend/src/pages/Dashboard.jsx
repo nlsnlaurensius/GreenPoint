@@ -15,7 +15,12 @@ export default function Dashboard() {
   }, []);
   const username = user?.username || "User";
   const points = user?.total_points ?? 0;
-  const status = "Gold";
+  let status = "Bronze";
+  if (points > 100 && points < 500) {
+    status = "Silver";
+  } else if (points >= 500) {
+    status = "Gold";
+  }
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-100 flex flex-col">
       {loading && <Loader message="Loading dashboard..." />}
@@ -27,7 +32,7 @@ export default function Dashboard() {
             <div className="bg-white rounded-2xl shadow-xl p-8 flex flex-col items-center justify-center border border-green-100">
               <img src={Handphone} alt="Handphone" className="w-28 h-28 object-contain mb-4" />
               <span className="text-lg font-semibold text-gray-700 mb-1">Welcome, <span className="text-[#004828]">{username}</span>!</span>
-              <span className="text-base text-gray-500 mb-4">Status: <span className="font-bold text-[#00A86B]">{status}</span></span>
+              <span className="text-base text-gray-500 mb-4">Status: <span className="font-bold text-[#00A86L]">{status}</span></span>
               <div className="flex flex-col items-center justify-center bg-gradient-to-br from-[#00A86B] to-[#004828] rounded-xl px-8 py-6 shadow-lg mb-2">
                 <span className="text-5xl font-bold text-white mb-1">{points}</span>
                 <span className="text-lg font-semibold text-white">Points</span>
