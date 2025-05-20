@@ -1,4 +1,5 @@
 # GreenPoint
+<<<<<<< HEAD
 
 GreenPoint is a web-based application designed to encourage and reward environmentally friendly behavior by allowing users to deposit waste, earn points, and redeem rewards. The system supports both regular users and administrators, and features a responsive, modern UI.
 
@@ -114,3 +115,6 @@ npm run dev
 ---
 
 
+=======
+GreenPoint is a digital waste bank platform that supports SDG 12 by encouraging responsible waste disposal. Users can deposit recyclables, earn points, and redeem rewards while admins manage waste types, banks, and rewards efficiently.
+>>>>>>> parent of e001c42 (erd, uml, dan readme)

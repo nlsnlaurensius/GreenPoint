@@ -1,61 +1,24 @@
-CREATE TABLE users ( 
-  id SERIAL PRIMARY KEY,
-  username VARCHAR(50) NOT NULL UNIQUE,
-  email VARCHAR(100) NOT NULL UNIQUE,
-  password TEXT NOT NULL,
-  role VARCHAR(50) DEFAULT 'user',
-  total_points NUMERIC DEFAULT 0,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE bank_sampahs (
-  id SERIAL PRIMARY KEY,
-  name VARCHAR(100) NOT NULL,
-  location VARCHAR(255) NOT NULL,
-  latitude NUMERIC(10, 8),
-  longitude NUMERIC(11, 8),
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE waste_types (
-  id SERIAL PRIMARY KEY,
-  name VARCHAR(50) NOT NULL UNIQUE
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password TEXT NOT NULL,
+    total_points INTEGER DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE waste_deposits (
-  id SERIAL PRIMARY KEY,
-  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-  bank_sampah_id INTEGER NOT NULL REFERENCES bank_sampahs(id) ON DELETE CASCADE,
-  waste_type_id INTEGER NOT NULL REFERENCES waste_types(id) ON DELETE CASCADE,
-  weight_kg NUMERIC NOT NULL,
-  points_earned NUMERIC NOT NULL,
-  deposit_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    deposit_date DATE NOT NULL,
+    waste_type VARCHAR(50) NOT NULL,   
+    weight_kg NUMERIC(5,2) NOT NULL    
 );
 
 CREATE TABLE rewards (
-  id SERIAL PRIMARY KEY,
-  name VARCHAR(100) NOT NULL,
-  point_cost INTEGER NOT NULL,
-  stock INTEGER DEFAULT 0,
-  img_url TEXT,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    point_cost INTEGER NOT NULL,    
+    stock INTEGER DEFAULT 0         
 );
-
-CREATE TABLE reward_redemptions (
-  id SERIAL PRIMARY KEY,
-  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-  reward_id INTEGER NOT NULL REFERENCES rewards(id) ON DELETE CASCADE,
-  points_used NUMERIC NOT NULL,
-  redemption_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-INSERT INTO waste_types (name) VALUES
-('organic'),
-('inorganic'),
-('b3');
-
-
-UPDATE users SET role = 'admin' WHERE email = 'admin@pa18.com'
