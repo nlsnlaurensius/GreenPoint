@@ -1,6 +1,4 @@
 # GreenPoint
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 GreenPoint is a web-based application designed to encourage and reward environmentally friendly behavior by allowing users to deposit waste, earn points, and redeem rewards. The system supports both regular users and administrators, and features a responsive, modern UI.
 
@@ -103,7 +101,7 @@ npm run dev
 - ERD
 ![ERD](https://i.ibb.co/Mxs69hH3/erd.png)
 - Flowchart
-![Flowchart](https://hackmd.io/_uploads/r11o6Xqbxg.jpg)
+  
 
 ## 🚀 Deployment
 - The project is ready for deployment on Vercel (Frontend) and any Node.js-compatible host (Backend).
@@ -114,3 +112,5 @@ npm run dev
 - Reyhan Ahnaf Deannova
 
 ---
+
+
