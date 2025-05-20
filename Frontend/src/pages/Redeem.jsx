@@ -14,6 +14,8 @@ export default function Redeem() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [redeeming, setRedeeming] = useState(false);
+  const [quantityModal, setQuantityModal] = useState({ open: false, reward: null });
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
       const fetchRewards = async () => {
@@ -61,49 +63,58 @@ export default function Redeem() {
 
   }, [user?.id, setUser]);
 
-    const handleRedeem = async (rewardId, pointCost) => {
-        if (!user || redeeming) return;
+  const openQuantityModal = (reward) => {
+    setQuantity(1);
+    setQuantityModal({ open: true, reward });
+  };
+  const closeQuantityModal = () => {
+    setQuantityModal({ open: false, reward: null });
+  };
 
-        if (userPoints < pointCost) {
-            setError("Insufficient points to redeem this reward.");
-            setSuccess(null);
-            return;
-        }
+  const handleRedeem = async (rewardId, pointCost, qty) => {
+    if (!user || redeeming) return;
 
+    if (userPoints < pointCost * qty) {
+      setError("Insufficient points to redeem this reward.");
+      setSuccess(null);
+      return;
+    }
+
+    setError(null);
+    setSuccess(null);
+    setRedeeming(true);
+
+    try {
+      const response = await api.post('/reward-redemptions', {
+        reward_id: rewardId,
+        quantity: qty
+      });
+
+      if (response.data.success) {
+        const updatedReward = response.data.payload.updatedReward || response.data.payload.updated_reward || response.data.payload.reward || null;
+        setSuccess(`Successfully redeemed${updatedReward && updatedReward.name ? ' ' + updatedReward.name : ''}!`);
         setError(null);
-        setSuccess(null);
-        setRedeeming(true);
 
-        try {
-            const response = await api.post('/reward-redemptions', {
-                reward_id: rewardId
-            });
-
-            if (response.data.success) {
-                const updatedReward = response.data.payload.updatedReward || response.data.payload.updated_reward || response.data.payload.reward || null;
-                setSuccess(`Successfully redeemed${updatedReward && updatedReward.name ? ' ' + updatedReward.name : ''}!`);
-                setError(null);
-
-                const { updatedUser } = response.data.payload;
-                if (updatedUser && user) {
-                    setUser(updatedUser);
-                    localStorage.setItem('user', JSON.stringify(updatedUser));
-                }
-
-                if (typeof window._fetchRewards === 'function') window._fetchRewards();
-            } else {
-                setError(response.data.message || 'Failed to redeem reward.');
-                setSuccess(null);
-            }
-        } catch (err) {
-             console.error('Redeem error:', err.response?.data?.message || err.message);
-             setError(err.response?.data?.message || 'An error occurred while redeeming reward.');
-             setSuccess(null);
-        } finally {
-             setRedeeming(false);
+        const { updatedUser } = response.data.payload;
+        if (updatedUser && user) {
+          setUser(updatedUser);
+          localStorage.setItem('user', JSON.stringify(updatedUser));
         }
-    };
 
+        if (typeof window._fetchRewards === 'function') window._fetchRewards();
+      } else {
+        setError(response.data.message || 'Failed to redeem reward.');
+        setSuccess(null);
+      }
+    } catch (err) {
+      console.error('Redeem error:', err.response?.data?.message || err.message);
+      setError(err.response?.data?.message || 'An error occurred while redeeming reward.');
+      setSuccess(null);
+    } finally {
+      setRedeeming(false);
+      closeQuantityModal();
+    }
+  };
 
    if (loadingRewards || loadingUser) {
        return (
@@ -158,16 +169,61 @@ export default function Redeem() {
                   <div className={`text-base font-semibold ${item.stock > 0 ? 'text-green-700' : 'text-red-500'}`}>Stock: {item.stock}</div>
                 </div>
                 <button
-                  onClick={() => handleRedeem(item.id, item.point_cost)}
+                  onClick={() => openQuantityModal(item)}
                   className={`w-full bg-[#004828] text-white text-base sm:text-lg font-semibold rounded-full px-6 py-3 shadow-md hover:bg-green-800 transition-transform duration-300 hover:scale-105 ${redeeming ? 'opacity-60 cursor-not-allowed' : ''}`}
                   disabled={redeeming || userPoints < item.point_cost || item.stock <= 0}
                 >
-                  {redeeming ? <span className="flex items-center justify-center"><span className="animate-spin rounded-full h-5 w-5 border-t-2 border-white border-b-2 border-green-200 mr-2"></span>Processing...</span> : 'Redeem'}
+                  Redeem
                 </button>
               </div>
             </div>
           ))}
         </div>
+        {/* Quantity Modal */}
+        {quantityModal.open && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+            <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-md flex flex-col items-center">
+              <h2 className="text-2xl font-bold mb-4 text-[#004828] text-center">Redeem {quantityModal.reward.name}</h2>
+              <div className="w-full flex flex-col items-center mb-4">
+                <label htmlFor="quantity" className="mb-2 font-semibold text-gray-700">Quantity</label>
+                <input
+                  id="quantity"
+                  type="number"
+                  min={1}
+                  max={Math.min(Math.floor(userPoints / quantityModal.reward.point_cost), quantityModal.reward.stock)}
+                  value={quantity}
+                  onChange={e => setQuantity(Number(e.target.value))}
+                  className="w-24 px-3 py-2 border rounded-md text-center text-lg focus:outline-none focus:ring-2 focus:ring-[#004828] mb-2"
+                />
+                <input
+                  type="range"
+                  min={1}
+                  max={Math.min(Math.floor(userPoints / quantityModal.reward.point_cost), quantityModal.reward.stock)}
+                  value={quantity}
+                  onChange={e => setQuantity(Number(e.target.value))}
+                  className="w-full"
+                />
+                <div className="text-sm text-gray-500 mt-1">Max: {Math.min(Math.floor(userPoints / quantityModal.reward.point_cost), quantityModal.reward.stock)}</div>
+              </div>
+              <div className="flex gap-4 w-full mt-2">
+                <button
+                  onClick={() => handleRedeem(quantityModal.reward.id, quantityModal.reward.point_cost, quantity)}
+                  className="flex-1 bg-[#004828] text-white font-semibold rounded-full px-6 py-3 shadow-md hover:bg-green-800 transition-transform duration-300 hover:scale-105 disabled:opacity-60 disabled:cursor-not-allowed"
+                  disabled={redeeming || quantity < 1 || quantity > Math.min(Math.floor(userPoints / quantityModal.reward.point_cost), quantityModal.reward.stock)}
+                >
+                  {redeeming ? 'Processing...' : `Redeem (${quantity})`}
+                </button>
+                <button
+                  onClick={closeQuantityModal}
+                  className="flex-1 bg-gray-300 text-gray-800 font-semibold rounded-full px-6 py-3 shadow-md hover:bg-gray-400 transition-transform duration-300 hover:scale-105"
+                  disabled={redeeming}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );
