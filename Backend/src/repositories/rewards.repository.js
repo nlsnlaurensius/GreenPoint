@@ -22,10 +22,10 @@ exports.getRewardById = async (id) => {
 
 exports.createReward = async (reward) => {
     try {
-        const { name, description, point_cost, stock } = reward;
+        const { name, point_cost, stock, img_url } = reward;
         const result = await db.query(
-            'INSERT INTO rewards (name, description, point_cost, stock) VALUES ($1, $2, $3, $4) RETURNING *',
-            [name, description, point_cost, stock || 0]
+            'INSERT INTO rewards (name, point_cost, stock, img_url) VALUES ($1, $2, $3, $4) RETURNING *',
+            [name, point_cost, stock || 0, img_url || null]
         );
         return result.rows[0];
     } catch (error) {
@@ -36,10 +36,10 @@ exports.createReward = async (reward) => {
 
 exports.updateReward = async (id, reward) => {
     try {
-        const { name, description, point_cost, stock } = reward;
+        const { name, point_cost, stock, img_url } = reward;
         const result = await db.query(
-            'UPDATE rewards SET name = $1, description = $2, point_cost = $3, stock = $4, updated_at = CURRENT_TIMESTAMP WHERE id = $5 RETURNING *',
-            [name, description, point_cost, stock, id]
+            'UPDATE rewards SET name = $1, point_cost = $2, stock = $3, img_url = $4, updated_at = CURRENT_TIMESTAMP WHERE id = $5 RETURNING *',
+            [name, point_cost, stock, img_url, id]
         );
         return result.rows[0];
     } catch (error) {

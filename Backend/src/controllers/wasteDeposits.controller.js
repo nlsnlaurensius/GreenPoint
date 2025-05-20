@@ -45,8 +45,8 @@ exports.createWasteDeposit = async (req, res) => {
         return baseResponse(res, false, 400, 'User ID (if admin), Bank Sampah ID, Waste Type (ID or Name), and Weight are required', null);
     }
 
-     if (isNaN(weight_kg) || weight_kg <= 0) {
-         return baseResponse(res, false, 400, 'Valid weight_kg is required', null);
+    if (isNaN(weight_kg) || weight_kg <= 0) {
+        return baseResponse(res, false, 400, 'Valid weight_kg is required', null);
     }
 
     try {
@@ -58,15 +58,10 @@ exports.createWasteDeposit = async (req, res) => {
             }
             typeId = wasteType.id;
         } else if (!typeId) {
-             return baseResponse(res, false, 400, 'Waste Type (ID or Name) is required', null);
+            return baseResponse(res, false, 400, 'Waste Type (ID or Name) is required', null);
         }
 
-        const wasteType = await wasteTypesRepository.getWasteTypeById(typeId);
-         if (!wasteType) {
-            return baseResponse(res, false, 400, 'Invalid waste type ID provided', null);
-        }
-
-        const pointsEarned = Math.floor(weight_kg * wasteType.points_per_kg);
+        const pointsEarned = Number(weight_kg);
 
         const newWasteDeposit = await wasteDepositRepository.createWasteDeposit({
             user_id: depositUserId,
@@ -79,7 +74,7 @@ exports.createWasteDeposit = async (req, res) => {
         const updatedUser = await usersRepository.updateUserTotalPoints(depositUserId, pointsEarned);
 
         if (!updatedUser) {
-             console.error(`Failed to update points for user ${depositUserId}`);
+            console.error(`Failed to update points for user ${depositUserId}`);
         }
 
         baseResponse(res, true, 201, 'Waste deposit recorded successfully', { wasteDeposit: newWasteDeposit, updatedUser });
@@ -119,16 +114,16 @@ exports.deleteWasteDeposit = async (req, res) => {
 
     try {
         const wasteDepositToDelete = await wasteDepositRepository.getWasteDepositById(id);
-         if (!wasteDepositToDelete) {
+        if (!wasteDepositToDelete) {
             return baseResponse(res, false, 404, 'Waste deposit not found', null);
         }
 
         const deletedWasteDeposit = await wasteDepositRepository.deleteWasteDeposit(id);
 
         if (deletedWasteDeposit) {
-            await usersRepository.updateUserTotalPoints(wasteDepositToDelete.user_id, -wasteDepositToDelete.points_earned);
+            await usersRepository.updateUserTotalPoints(wasteDepositToDelete.user_id, -Number(wasteDepositToDelete.points_earned));
         } else {
-             return baseResponse(res, false, 404, 'Waste deposit not found', null);
+            return baseResponse(res, false, 404, 'Waste deposit not found', null);
         }
 
         baseResponse(res, true, 200, 'Waste deposit deleted successfully', deletedWasteDeposit);

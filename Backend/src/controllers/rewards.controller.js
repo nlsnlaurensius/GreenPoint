@@ -30,7 +30,7 @@ exports.getRewardById = async (req, res) => {
 };
 
 exports.createReward = async (req, res) => {
-    const { name, description, point_cost, stock } = req.body;
+    const { name, point_cost, stock, img_url } = req.body;
     if (!name || point_cost === undefined) {
         return baseResponse(res, false, 400, 'Name and point_cost are required', null);
     }
@@ -42,7 +42,7 @@ exports.createReward = async (req, res) => {
     }
 
     try {
-        const newReward = await rewardsRepository.createReward({ name, description, point_cost, stock });
+        const newReward = await rewardsRepository.createReward({ name, point_cost, stock, img_url });
         baseResponse(res, true, 201, 'Reward created successfully', newReward);
     } catch (error) {
         console.error('Error creating reward:', error);
@@ -52,13 +52,13 @@ exports.createReward = async (req, res) => {
 
 exports.updateReward = async (req, res) => {
     const { id } = req.params;
-    const { name, description, point_cost, stock } = req.body;
+    const { name, point_cost, stock, img_url } = req.body;
     if (!id) {
         return baseResponse(res, false, 400, 'Reward ID is required', null);
     }
 
-    if (!name && !description && point_cost === undefined && stock === undefined) {
-         return baseResponse(res, false, 400, 'At least one field (name, description, point_cost, stock) is required for update', null);
+    if (!name && point_cost === undefined && stock === undefined && !img_url) {
+         return baseResponse(res, false, 400, 'At least one field (name, point_cost, stock, img_url) is required for update', null);
     }
 
     if (point_cost !== undefined && (isNaN(point_cost) || point_cost < 0)) {
@@ -69,7 +69,7 @@ exports.updateReward = async (req, res) => {
     }
 
     try {
-        const updatedReward = await rewardsRepository.updateReward(id, { name, description, point_cost, stock });
+        const updatedReward = await rewardsRepository.updateReward(id, { name, point_cost, stock, img_url });
         if (!updatedReward) {
             return baseResponse(res, false, 404, 'Reward not found', null);
         }

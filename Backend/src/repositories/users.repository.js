@@ -123,4 +123,24 @@ exports.deleteUser = async (id) => {
     }
 };
 
+exports.findUserByUsername = async (username) => {
+    try {
+        const result = await db.query('SELECT * FROM users WHERE username = $1', [username]);
+        return result.rows[0];
+    } catch (error) {
+        console.error('Error fetching user by username:', error);
+        throw error;
+    }
+};
+
+exports.updateUserPassword = async (id, hashedPassword) => {
+    try {
+        await db.query('UPDATE users SET password = $1, updated_at = NOW() WHERE id = $2', [hashedPassword, id]);
+        return true;
+    } catch (error) {
+        console.error('Error updating user password:', error);
+        throw error;
+    }
+};
+
 exports.pool = db.pool;

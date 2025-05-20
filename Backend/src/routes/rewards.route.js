@@ -6,7 +6,6 @@ const checkAdmin = require('../middleware/admin.middleware');
 
 router.get('/', rewardsController.getAllRewards);
 router.get('/:id', rewardsController.getRewardById);
-
 router.post('/', authenticateToken, checkAdmin, rewardsController.createReward);
 router.put('/:id', authenticateToken, checkAdmin, rewardsController.updateReward);
 router.delete('/:id', authenticateToken, checkAdmin, rewardsController.deleteReward);

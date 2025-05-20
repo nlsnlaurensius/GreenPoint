@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors')
 const app = express();
 const pgDatabase = require('./src/database/pg.database');
 const authenticateToken = require('./src/middleware/auth.middleware');
@@ -13,6 +14,11 @@ const wasteDepositRoutes = require('./src/routes/wasteDeposits.route');
 const rewardRoutes = require('./src/routes/rewards.route');
 const rewardRedemptionRoutes = require('./src/routes/rewardRedemptions.route');
 const adminRoutes = require('./src/routes/admin.route');
+const depositCodeRoutes = require('./src/routes/depositCode.route');
+
+app.use(cors({
+    origin: 'http://localhost:5173' 
+}));
 
 app.use(express.json());
 
@@ -37,6 +43,8 @@ app.use('/api/rewards', rewardRoutes);
 app.use('/api/reward-redemptions', rewardRedemptionRoutes);
 
 app.use('/admin', authenticateToken, checkAdmin, adminRoutes);
+
+app.use('/api/deposit-codes', depositCodeRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
