@@ -19,7 +19,7 @@ const depositCodeRoutes = require('./src/routes/depositCode.route');
 app.use(cors({
 origin: [
     'http://localhost:5173',
-    'http://greenpoint-fe.vercel.app'
+    'https://greenpoint-fe.vercel.app'
 ]
 }));
 
