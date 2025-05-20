@@ -17,7 +17,7 @@ export default function App() {
 
   return (
     <div className="font-sans text-gray-900">
-      {loading && <Loader message="Memuat halaman..." />}
+      {loading && <Loader message="Loading..." />}
       <div className={loading ? 'opacity-0 pointer-events-none' : 'transition-opacity duration-700 opacity-100'}>
         <Header />
         <main className="space-y-20 py-12 px-6 md:px-12 lg:px-24">

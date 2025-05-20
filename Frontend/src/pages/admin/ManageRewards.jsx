@@ -148,7 +148,7 @@ function ManageRewards() {
     if (loading) {
         return (
             <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center">
-                <div className="text-xl">Loading rewards data...</div>
+                <div className="text-xl">Loading...</div>
             </div>
         );
     }
