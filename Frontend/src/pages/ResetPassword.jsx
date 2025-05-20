@@ -18,7 +18,7 @@ export default function ResetPassword() {
     setMessage("");
     setError("");
     if (password !== confirmPassword) {
-      setError("Password tidak sama.");
+      setError("Passwords do not match.");
       setLoading(false);
       return;
     }
@@ -28,10 +28,10 @@ export default function ResetPassword() {
         setMessage("Password successfully reset. Please login.");
         setTimeout(() => navigate("/login"), 2000);
       } else {
-        setError(res.data.message || "Failed reset password.");
+        setError(res.data.message || "Failed to reset password.");
       }
     } catch (err) {
-      setError(err.response?.data?.message || "There is an error.");
+      setError(err.response?.data?.message || "An error occurred.");
     } finally {
       setLoading(false);
     }
@@ -39,34 +39,40 @@ export default function ResetPassword() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-white px-4">
-      {loading && <Loader message="changing password..." />}
-      <form onSubmit={handleSubmit} className="bg-white shadow-lg rounded-xl p-8 w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-6 text-center">Reset Password</h1>
-        <label className="block mb-2 font-semibold">New Password</label>
-        <input
-          type="password"
-          className="w-full border rounded-lg px-3 py-2 mb-4 focus:outline-none focus:border-green-600"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          required
-        />
-        <label className="block mb-2 font-semibold">Confirm Password</label>
-        <input
-          type="password"
-          className="w-full border rounded-lg px-3 py-2 mb-4 focus:outline-none focus:border-green-600"
-          value={confirmPassword}
-          onChange={e => setConfirmPassword(e.target.value)}
-          required
-        />
-        <button type="submit" className="w-full bg-green-700 text-white py-2 rounded-lg font-semibold hover:bg-green-800 transition mb-2">
-          Reset Password
-        </button>
-        <button type="button" onClick={() => navigate('/login')} className="w-full bg-gray-200 text-gray-800 py-2 rounded-lg font-semibold hover:bg-gray-300 transition mb-2">
-          Back to Login
-        </button>
+      {loading && <Loader message="Resetting password..." />}
+      <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
+        <h1 className="text-3xl font-bold text-[#004828] mb-6 text-center">Reset Password</h1>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            type="password"
+            placeholder="New password"
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#004828]"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Confirm new password"
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#004828]"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+          />
+          <button
+            type="submit"
+            className="w-full bg-[#004828] text-white py-2 rounded-full font-semibold shadow-md hover:bg-green-800 transition"
+            disabled={loading}
+          >
+            {loading ? "Resetting..." : "Reset Password"}
+          </button>
+        </form>
         {message && <div className="text-green-600 mt-4 text-center">{message}</div>}
         {error && <div className="text-red-500 mt-4 text-center">{error}</div>}
-      </form>
+        <div className="mt-6 text-center">
+          <a href="/login" className="text-[#004828] hover:underline">Back to Login</a>
+        </div>
+      </div>
     </div>
   );
 }

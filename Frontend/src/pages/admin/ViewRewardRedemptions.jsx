@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import api from '../../api'; // Pastikan path ini benar
+import api from '../../api';
 
 function ViewRewardRedemptions() {
     const [redemptions, setRedemptions] = useState([]);
@@ -51,7 +51,7 @@ function ViewRewardRedemptions() {
     if (loading) {
         return (
             <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center">
-                <div className="text-xl">Loading Reward Redemption data...</div>
+                <div className="text-xl">Loading reward redemptions...</div>
             </div>
         );
     }

@@ -130,7 +130,7 @@ function ManageBankSampahs() {
     if (loading) {
         return (
             <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center">
-                <div className="text-xl">Loading Bank Sampah data...</div>
+                <div className="text-xl">Loading bank sampah data...</div>
             </div>
         );
     }

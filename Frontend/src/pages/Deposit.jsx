@@ -61,17 +61,17 @@ export default function Deposit() {
   };
 
   const handleBankSampahSelect = (bankId) => {
-     setSelectedBankSampahId(bankId);
-     setError("");
-     setSuccess("");
-  }
+    setSelectedBankSampahId(bankId);
+    setError("");
+    setSuccess("");
+  };
 
   const handleQuantityChange = (e) => {
-     const val = e.target.value.replace(/[^0-9.,]/g, '').replace(',', '.');
-     setQuantity(val);
-     setError("");
-     setSuccess("");
-   };
+    const val = e.target.value.replace(/[^0-9.,]/g, '').replace(',', '.');
+    setQuantity(val);
+    setError("");
+    setSuccess("");
+  };
 
 
   const handleDeposit = async (e) => {
@@ -84,20 +84,18 @@ export default function Deposit() {
       setError("Please select a waste type.");
       return;
     }
-     if (!selectedBankSampahId) {
-       setError("Please select a bank sampah location.");
-       return;
-     }
-     const weight = parseFloat(quantity);
-     if (isNaN(weight) || weight <= 0) {
-       setError("Please enter a valid quantity (must be a positive number).");
-       return;
-     }
-
+    if (!selectedBankSampahId) {
+      setError("Please select a bank sampah location.");
+      return;
+    }
+    const weight = parseFloat(quantity);
+    if (isNaN(weight) || weight <= 0) {
+      setError("Please enter a valid quantity (must be a positive number).");
+      return;
+    }
     setError("");
     setSuccess("");
     setSubmitting(true);
-
     try {
       const response = await api.post('/waste-deposits', {
         user_id: userId,
@@ -105,7 +103,6 @@ export default function Deposit() {
         waste_type_id: selectedWasteTypeId,
         weight_kg: weight,
       });
-
       if (response.data.success) {
         setSuccess('Deposit recorded successfully!');
         setQuantity('');
@@ -132,17 +129,16 @@ export default function Deposit() {
     }
   };
 
-   if (loading) {
-       return (
-           <div className="min-h-screen bg-white flex flex-col">
-               <Header />
-               <main className="flex flex-col items-center pt-12 flex-1">
-                   <h1 className="text-6xl font-bold text-[#004828] mb-12 text-center">Deposit Waste</h1>
-                   <Loader message="Memuat pilihan deposit..." />
-               </main>
-           </div>
-       );
-   }
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white flex flex-col">
+        <Header />
+        <main className="flex flex-col items-center pt-12 flex-1 w-full">
+          <Loader message="Loading deposit options..." />
+        </main>
+      </div>
+    );
+  }
 
 
   return (

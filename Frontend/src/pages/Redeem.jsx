@@ -111,7 +111,7 @@ export default function Redeem() {
                <Header />
                <main className="flex flex-col items-center pt-12 flex-1 w-full">
                    <h1 className="text-6xl font-bold text-[#004828] mb-12 text-center">Redeem Rewards</h1>
-                   <Loader message="Memuat rewards..." />
+                   <Loader message="Loading rewards..." />
                </main>
            </div>
        );

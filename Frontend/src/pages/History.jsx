@@ -42,7 +42,7 @@ export default function History() {
                <Header />
                <main className="flex flex-col items-center pt-12 flex-1 w-full">
                    <h1 className="text-6xl font-bold text-[#004828] mb-12 text-center">History</h1>
-                   <Loader message="Memuat riwayat..." />
+                   <Loader message="Loading history..." />
                </main>
            </div>
        );
@@ -66,7 +66,7 @@ export default function History() {
               <Header />
               <main className="flex flex-col items-center pt-12 flex-1 w-full">
                   <h1 className="text-6xl font-bold text-[#004828] mb-12 text-center">History</h1>
-                  <div className="text-red-500 text-center">Error loading history: {error}</div>
+                  <div className="text-center text-red-600">{error}</div>
               </main>
           </div>
       );

@@ -22,7 +22,7 @@ function ProtectedRoute({ element }) {
   const { isAuthenticated, loading, role } = useAuth();
 
   if (loading) {
-      return <Loader message="Memuat data..." />;
+      return <Loader message="Loading data..." />;
   }
 
   if (!isAuthenticated) {
@@ -40,7 +40,7 @@ function AdminRoute({ element }) {
   const { isAuthenticated, role, loading } = useAuth();
 
    if (loading) {
-       return <Loader message="Memuat data..." />;
+       return <Loader message="Loading data..." />;
    }
 
   if (!isAuthenticated || role !== 'admin') {

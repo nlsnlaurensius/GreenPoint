@@ -50,7 +50,7 @@ export default function Register() {
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
-      {loading && <Loader message="Mendaftarkan akun..." />}
+      {loading && <Loader message="Registering account..." />}
       <header className="flex items-center px-6 py-4 border-b">
         <a href="/" className="focus:outline-none" tabIndex={0}>
           <img src={Logo} alt="GreenPoint logo" className="h-9 cursor-pointer transition-transform duration-300 hover:scale-110" />

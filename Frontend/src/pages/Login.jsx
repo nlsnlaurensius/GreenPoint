@@ -35,7 +35,7 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
-      {loading && <Loader message="Memeriksa akun..." />}
+      {loading && <Loader message="Checking account..." />}
       <header className="flex items-center px-6 py-4 border-b">
         <a href="/" className="focus:outline-none" tabIndex={0}>
           <img src={Logo} alt="GreenPoint logo" className="h-9 cursor-pointer transition-transform duration-300 hover:scale-110" />
@@ -50,7 +50,7 @@ export default function Login() {
               <input
                 id="email"
                 type="email"
-                placeholder="Enter your personal or work email"
+                placeholder="Enter your email"
                 className="w-full px-3 sm:px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#004828] text-base"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -79,7 +79,7 @@ export default function Login() {
             </button>
           </form>
           <div className="mt-4 text-center">
-            <a href="/forgot-password" className="text-green-700 hover:underline">Forgot the password?</a>
+            <a href="/forgot-password" className="text-green-700 hover:underline">Forgot your password?</a>
           </div>
           <p className="text-center text-xs sm:text-sm text-gray-700 mt-4 sm:mt-6">
             By continuing with Email, you agree to GreenPoint's <br />

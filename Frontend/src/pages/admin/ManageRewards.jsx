@@ -148,7 +148,7 @@ function ManageRewards() {
     if (loading) {
         return (
             <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center">
-                <div className="text-xl">Loading Rewards data...</div>
+                <div className="text-xl">Loading rewards data...</div>
             </div>
         );
     }
@@ -161,7 +161,7 @@ function ManageRewards() {
                 <div className="flex justify-between items-center mb-6 max-w-4xl mx-auto">
                     <Link
                         to="/admin"
-                        className="bg-gray-700 text-white px-6 py-2 rounded-full text-lg font-semibold shadow-md hover:bg-gray-600 transition duration-300 flex items-center"
+                        className="bg-gray-700 text-white px-3 sm:px-6 py-1.5 sm:py-2 rounded-full text-lg font-semibold shadow-md hover:bg-gray-600 transition duration-300 flex items-center"
                     >
                         &larr; Back to Dashboard
                     </Link>

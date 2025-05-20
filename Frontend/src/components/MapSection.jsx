@@ -5,6 +5,7 @@ import L from 'leaflet';
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+import Loader from './Loader'; // Assuming you have a Loader component
 
 // Fix leaflet's default icon path for Vite/React
 // This must be at the top-level, not inside the component
@@ -45,53 +46,46 @@ function MapSection() {
 
   if (loading) {
     return (
-       <section className="mb-12 max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-green-900 font-bold text-5xl text-center mb-12">
-             Find Your Nearest Exchange Point
-          </h2>
-          <div>Loading map and locations...</div>
-       </section>
+      <div className="flex justify-center items-center min-h-[300px]">
+        <Loader message="Loading map..." />
+      </div>
     );
   }
 
-   if (error) {
-     return (
-        <section className="mb-12 max-w-4xl mx-auto px-4 text-center">
-           <h2 className="text-green-900 font-bold text-5xl text-center mb-12">
-              Find Your Nearest Exchange Point
-           </h2>
-           <div className="text-red-500">Error loading locations: {error}</div>
-        </section>
-     );
-   }
-
+  if (error) {
+    return (
+      <div className="flex justify-center items-center min-h-[300px] text-red-600">
+        {error}
+      </div>
+    );
+  }
 
   return (
     <section id="map" className="relative z-0 mb-12 max-w-4xl mx-auto px-4 w-full">
       <h2 className="text-green-900 font-bold text-5xl text-center mb-12">
         Find Your Nearest Exchange Point
       </h2>
-       <MapContainer
-          center={defaultCenter}
-          zoom={defaultZoom}
-          scrollWheelZoom={false}
-          style={{ height: '500px', width: '100%', borderRadius: '8px' }}
-       >
-          <TileLayer
-             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
+      <MapContainer
+        center={defaultCenter}
+        zoom={defaultZoom}
+        scrollWheelZoom={false}
+        style={{ height: '500px', width: '100%', borderRadius: '8px' }}
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
 
-          {bankSampahs.map(bank => (
-             bank.latitude && bank.longitude ? (
-                <Marker key={bank.id} position={[bank.latitude, bank.longitude]}>
-                   <Popup>
-                      <strong>{bank.name}</strong><br />{bank.location}
-                   </Popup>
-                </Marker>
-             ) : null
-          ))}
-       </MapContainer>
+        {bankSampahs.map(bank => (
+          bank.latitude && bank.longitude ? (
+            <Marker key={bank.id} position={[bank.latitude, bank.longitude]}>
+              <Popup>
+                <strong>{bank.name}</strong><br />{bank.location}
+              </Popup>
+            </Marker>
+          ) : null
+        ))}
+      </MapContainer>
     </section>
   );
 }
