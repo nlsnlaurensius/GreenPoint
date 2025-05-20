@@ -1,6 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import api from '../api';
+import L from 'leaflet';
+import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
+import markerIcon from 'leaflet/dist/images/marker-icon.png';
+import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+
+// Fix leaflet's default icon path for Vite/React
+// This must be at the top-level, not inside the component
+// so it only runs once
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: markerIcon2x,
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow,
+});
 
 function MapSection() {
   const [bankSampahs, setBankSampahs] = useState([]);
@@ -54,7 +67,7 @@ function MapSection() {
 
 
   return (
-    <section id="map" className="mb-12 max-w-4xl mx-auto px-4 w-full">
+    <section id="map" className="relative z-0 mb-12 max-w-4xl mx-auto px-4 w-full">
       <h2 className="text-green-900 font-bold text-5xl text-center mb-12">
         Find Your Nearest Exchange Point
       </h2>
