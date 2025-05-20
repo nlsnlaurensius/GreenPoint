@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import Logo from '../assets/Logo.png';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function Header() {
   const location = useLocation();
   const navigate = useNavigate();
-  const isLoggedIn = Boolean(localStorage.getItem('isLoggedIn'));
+  const { isAuthenticated, logout } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handleSmoothScroll = (e, targetId) => {
@@ -18,26 +19,25 @@ export default function Header() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('isLoggedIn');
-    navigate('/login');
+    logout();
+    navigate('/');
   };
 
   React.useEffect(() => {
-    if (location.pathname === "/" && location.state && location.state.scrollTo) {
-      setTimeout(() => {
-        const el = document.getElementById(location.state.scrollTo);
-        if (el) {
-          el.scrollIntoView({ behavior: "smooth" });
-        }
-      }, 100);
-    }
-    // eslint-disable-next-line
-  }, [location]);
+     if (location.pathname === "/" && location.state && location.state.scrollTo) {
+       requestAnimationFrame(() => {
+         const el = document.getElementById(location.state.scrollTo);
+         if (el) {
+           el.scrollIntoView({ behavior: "smooth" });
+         }
+       });
+     }
+   }, [location]);
+
 
   return (
     <header className="navbar-blur shadow-sm sticky top-0 z-50 backdrop-blur-md bg-white/60">
       <div className="container mx-auto flex items-center justify-between py-4 px-6">
-        {/* Logo */}
         <div className="flex items-center flex-shrink-0">
           <a
             href="/"
@@ -59,7 +59,6 @@ export default function Header() {
           </a>
         </div>
 
-        {/* Hamburger Button */}
         <button
           className="md:hidden text-gray-700 focus:outline-none"
           onClick={() => setMenuOpen(!menuOpen)}
@@ -79,14 +78,13 @@ export default function Header() {
           </svg>
         </button>
 
-        {/* Navigation */}
         <nav
           className={`${
             menuOpen ? 'flex' : 'hidden'
           } absolute md:static top-20 left-0 w-full md:w-auto bg-white md:bg-transparent md:flex md:flex-row flex-col md:items-center md:space-x-6 space-y-4 md:space-y-0 text-sm text-gray-700 px-6 py-4 md:py-0`}
         >
-          
-        <a
+
+          <a
             href="/"
             onClick={e => {
               if (location.pathname !== "/") {
@@ -116,14 +114,15 @@ export default function Header() {
           >
             GP Location
           </a>
-          {isLoggedIn ? (
+
+          {isAuthenticated ? (
             <>
-              <a href="/dashboard" className="hover:text-black font-semibold">Dashboard</a>
-              <a href="/deposit" className="hover:text-black font-semibold">Deposit</a>
-              <a href="/history" className="hover:text-black font-semibold">History</a>
-              <a href="/redeem" className="hover:text-black font-semibold">Reedem</a>
+              <a href="/dashboard" onClick={() => setMenuOpen(false)} className="hover:text-black font-semibold">Dashboard</a>
+              <a href="/deposit" onClick={() => setMenuOpen(false)} className="hover:text-black font-semibold">Deposit</a>
+              <a href="/history" onClick={() => setMenuOpen(false)} className="hover:text-black font-semibold">History</a>
+              <a href="/redeem" onClick={() => setMenuOpen(false)} className="hover:text-black font-semibold">Redeem</a>
               <button
-                onClick={handleLogout}
+                onClick={() => { handleLogout(); setMenuOpen(false); }}
                 className="bg-red-600 text-white px-4 py-2 rounded-full font-semibold hover:bg-red-700 transition"
               >
                 Logout
@@ -132,6 +131,7 @@ export default function Header() {
           ) : (
             <a
               href="/login"
+              onClick={() => setMenuOpen(false)}
               className="bg-[#004828] text-white px-4 py-2 rounded-full font-semibold hover:bg-green-800 transition"
             >
               Login / Register
@@ -139,7 +139,7 @@ export default function Header() {
           )}
         </nav>
       </div>
-      
+
     </header>
   );
 }

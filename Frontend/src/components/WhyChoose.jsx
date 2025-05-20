@@ -11,7 +11,6 @@ export default function WhyChoose() {
 
   return (
     <section className="container mx-auto px-6 md:px-12">
-      {/* Header */}
       <div className="text-center mb-10">
         <h1 className="text-[#004828] text-3xl md:text-5xl font-bold">
           Supporting SDG 12 for a Sustainable Future
@@ -21,7 +20,6 @@ export default function WhyChoose() {
         </p>
       </div>
 
-      {/* Content */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-10">
         <div>
           <h2 className="text-lg md:text-3xl font-semibold text-[#004828] mb-4">
@@ -41,20 +39,19 @@ export default function WhyChoose() {
             className="w-full max-w-lg"
           />
 
-          {/* Area layar video*/}
-          <div className="absolute top-[7%] left-[18.6%] w-[63.9%] h-[65%] rounded-md overflow-hidden shadow-lg">
+          <div className="absolute top-[7%] left-[18.6%] w-[63.9%] h-[65%] rounded-md overflow-hidden shadow-lg aspect-video">
             <iframe
-              src="https://www.youtube.com/embed/dn-hLQk49eA?si=vdRRmb97MxuoDd-y" // ganti path video kamu
+              src="https://www.youtube.com/embed/dn-hLQk49eA?si=vdRRmb97MxuoDd-y"
               title="YouTube video"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
-              className="w-full h-full"
+              className="w-full h-full object-cover aspect-video"
+              style={{ aspectRatio: '16/9' }}
             />
           </div>
         </div>
       </div>
 
-      {/* CTA Button */}
       {!localStorage.getItem('isLoggedIn') && (
         <div className="text-center">
           <a href="/login">

@@ -4,7 +4,6 @@ export default function Footer() {
   return (
     <footer className="bg-[#004828] text-white py-12 px-4">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between">
-        {/* About Section */}
         <div className="mb-8 md:mb-0 md:w-1/3">
           <h2 className="text-2xl font-bold mb-4">About GreenPoint</h2>
           <p className="text-sm md:text-base">
@@ -13,14 +12,12 @@ export default function Footer() {
           </p>
         </div>
 
-        {/* Contact Us Section */}
         <div className="mb-8 md:mb-0 md:w-1/4">
           <h2 className="text-2xl font-bold mb-4">Contact Us</h2>
           <p className="mb-2">Email: support@greenpoint.com</p>
           <p>Phone: +62 857 1903 6561</p>
         </div>
 
-        {/* Social Media Section */}
         <div className="md:w-1/4">
           <h2 className="text-2xl font-bold mb-4">Follow Us</h2>
           <div className="flex space-x-4">

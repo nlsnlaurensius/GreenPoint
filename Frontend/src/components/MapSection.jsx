@@ -1,32 +1,84 @@
-import React from 'react';
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import React, { useEffect, useState } from 'react';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import api from '../api';
 
 function MapSection() {
-  const mapContainerStyle = {
-    width: '100%',
-    height: '500px',
-    borderRadius: '8px',
-  };
+  const [bankSampahs, setBankSampahs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const center = {
-    lat: 51.505, // Latitude
-    lng: -0.09, // Longitude
-  };
+  const defaultCenter = [-2.5489, 118.0149];
+  const defaultZoom = 5;
+
+  useEffect(() => {
+    const fetchBankSampahs = async () => {
+      try {
+        const response = await api.get('/bank-sampahs');
+        if (response.data.success) {
+          setBankSampahs(response.data.payload);
+        } else {
+          setError(response.data.message || 'Failed to fetch bank sampahs.');
+        }
+      } catch (err) {
+        console.error('Error fetching bank sampahs:', err);
+        setError('Failed to fetch bank sampahs.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBankSampahs();
+  }, []);
+
+  if (loading) {
+    return (
+       <section className="mb-12 max-w-4xl mx-auto px-4 text-center">
+          <h2 className="text-green-900 font-bold text-5xl text-center mb-12">
+             Find Your Nearest Exchange Point
+          </h2>
+          <div>Loading map and locations...</div>
+       </section>
+    );
+  }
+
+   if (error) {
+     return (
+        <section className="mb-12 max-w-4xl mx-auto px-4 text-center">
+           <h2 className="text-green-900 font-bold text-5xl text-center mb-12">
+              Find Your Nearest Exchange Point
+           </h2>
+           <div className="text-red-500">Error loading locations: {error}</div>
+        </section>
+     );
+   }
+
 
   return (
-    <section className="mb-12 max-w-4xl mx-auto px-4">
+    <section id="map" className="mb-12 max-w-4xl mx-auto px-4 w-full">
       <h2 className="text-green-900 font-bold text-5xl text-center mb-12">
         Find Your Nearest Exchange Point
       </h2>
-      <LoadScript googleMapsApiKey="AIzaSyBVZw7gGZfJTCMaA7Wd-S-JcVbq8ZOL6P8">
-        <GoogleMap
-          mapContainerStyle={mapContainerStyle}
-          center={center}
-          zoom={14}
-        >
-          <Marker position={center} />
-        </GoogleMap>
-      </LoadScript>
+       <MapContainer
+          center={defaultCenter}
+          zoom={defaultZoom}
+          scrollWheelZoom={false}
+          style={{ height: '500px', width: '100%', borderRadius: '8px' }}
+       >
+          <TileLayer
+             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+
+          {bankSampahs.map(bank => (
+             bank.latitude && bank.longitude ? (
+                <Marker key={bank.id} position={[bank.latitude, bank.longitude]}>
+                   <Popup>
+                      <strong>{bank.name}</strong><br />{bank.location}
+                   </Popup>
+                </Marker>
+             ) : null
+          ))}
+       </MapContainer>
     </section>
   );
 }

@@ -1,4 +1,6 @@
-/* Transparent blur navbar effect */
+/* src/index.css */
+@import 'leaflet/dist/leaflet.css';
+
 .navbar-blur {
   background: rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(12px);
