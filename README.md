@@ -101,7 +101,7 @@ npm run dev
 - ERD
 ![ERD](https://i.ibb.co/Mxs69hH3/erd.png)
 - Flowchart
-  
+![Flowchart](https://hackmd.io/_uploads/r11o6Xqbxg.jpg)
 
 ## 🚀 Deployment
 - The project is ready for deployment on Vercel (Frontend) and any Node.js-compatible host (Backend).
