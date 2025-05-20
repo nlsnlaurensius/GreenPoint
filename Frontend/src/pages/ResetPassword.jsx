@@ -17,6 +17,13 @@ export default function ResetPassword() {
     setLoading(true);
     setMessage("");
     setError("");
+    // Password regex: min 8 chars, uppercase, lowercase, number, special char
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
+    if (!passwordRegex.test(password)) {
+      setError("Password must be at least 8 characters, include uppercase, lowercase, number, and special character.");
+      setLoading(false);
+      return;
+    }
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
       setLoading(false);
