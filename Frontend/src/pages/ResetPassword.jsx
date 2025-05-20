@@ -25,13 +25,13 @@ export default function ResetPassword() {
     try {
       const res = await api.post(`/auth/reset-password/${token}`, { password });
       if (res.data.success) {
-        setMessage("Password berhasil direset. Silakan login.");
+        setMessage("Password successfully reset. Please login.");
         setTimeout(() => navigate("/login"), 2000);
       } else {
-        setError(res.data.message || "Gagal reset password.");
+        setError(res.data.message || "Failed reset password.");
       }
     } catch (err) {
-      setError(err.response?.data?.message || "Terjadi kesalahan.");
+      setError(err.response?.data?.message || "There is an error.");
     } finally {
       setLoading(false);
     }
@@ -39,10 +39,10 @@ export default function ResetPassword() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-white px-4">
-      {loading && <Loader message="Mengganti password..." />}
+      {loading && <Loader message="changing password..." />}
       <form onSubmit={handleSubmit} className="bg-white shadow-lg rounded-xl p-8 w-full max-w-md">
         <h1 className="text-2xl font-bold mb-6 text-center">Reset Password</h1>
-        <label className="block mb-2 font-semibold">Password Baru</label>
+        <label className="block mb-2 font-semibold">New Password</label>
         <input
           type="password"
           className="w-full border rounded-lg px-3 py-2 mb-4 focus:outline-none focus:border-green-600"
@@ -50,7 +50,7 @@ export default function ResetPassword() {
           onChange={e => setPassword(e.target.value)}
           required
         />
-        <label className="block mb-2 font-semibold">Konfirmasi Password</label>
+        <label className="block mb-2 font-semibold">Confirm Password</label>
         <input
           type="password"
           className="w-full border rounded-lg px-3 py-2 mb-4 focus:outline-none focus:border-green-600"
