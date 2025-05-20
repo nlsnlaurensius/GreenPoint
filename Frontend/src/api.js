@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000/api'
+const API_URL = import.meta.env.VITE_BACKEND_URL || 'https://greenpoint-be.vercel.app/api'
 const api = axios.create({
     baseURL: API_URL,
     headers: {
