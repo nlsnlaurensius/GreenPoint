@@ -18,6 +18,6 @@
     "JWT_SECRET": "4jeLv91DG8oZPWopDl3AJ4s4kehv8sZi1FXv3Iw6CO05d4GpptD0wjKtosVBwiC4",
     "EMAIL_USER": "nelsonlaurensius1234@gmail.com",
     "EMAIL_PASS": "ujoxeurpwlkidxel",
-    "FRONTEND_URL": "http://localhost:5173"
+    "FRONTEND_URL": "https://greenpoint-fe.vercel.app"
   }
 }
