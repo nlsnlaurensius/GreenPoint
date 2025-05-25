@@ -144,7 +144,7 @@ export default function Deposit() {
   return (
     <div className="min-h-screen bg-white flex flex-col">
       <Header />
-      <main className="flex flex-col items-center pt-8 sm:pt-12 flex-1 px-2 sm:px-4">
+      <main className="flex flex-col items-center pt-8 sm:pt-12 flex-1 px-2 sm:px-4 mb-8">
         <h1 className="text-4xl sm:text-6xl font-bold text-[#004828] mb-4 sm:mb-12 text-center">Deposit Waste</h1>
         <form
           className="flex flex-col md:flex-row gap-6 md:gap-12 w-full max-w-6xl justify-center items-stretch transition-all duration-700"
