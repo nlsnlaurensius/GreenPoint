@@ -59,7 +59,7 @@ function DepositCodeVerification({ onVerified, onCancel }) {
           <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
             <button
               type="button"
-              onClick={onCancel}
+              onClick={() => navigate('/dashboard')}
               className="px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-xl font-semibold transition-colors w-full sm:w-1/2"
             >
               Cancel
@@ -73,12 +73,6 @@ function DepositCodeVerification({ onVerified, onCancel }) {
             </button>
           </div>
         </form>
-        <button
-          onClick={() => navigate('/dashboard')}
-          className="mt-6 w-full px-6 py-3 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded-xl font-semibold transition-colors"
-        >
-          Back to Dashboard
-        </button>
       </div>
     </div>
   );
